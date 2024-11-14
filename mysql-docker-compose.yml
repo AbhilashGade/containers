@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    image: clouddemogo:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_NAME=app_database
+      - DB_USERNAME=root
+      - DB_PASSWORD=toor
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_PARAMS=charset=utf8mb4&parseTime=True&loc=Local
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8080
+    networks:
+      - clouddemo
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: app_database
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - clouddemo
+
+networks:
+  clouddemo:
+
+volumes:
+  db_data:
