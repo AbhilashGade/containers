@@ -19,8 +19,9 @@ docker build -t <image-name> .
 
 5) Run the docker image using the following command to test the application locally:
 ```bash
-docker run -d -p 8080:8080 <image-name>
 # ensure to change the port mapping according to your application
+# you can also use the --env-file flag to pass environment variables to the container
+docker run --env-file .env -d -p 8080:8080 <image-name> 
 ```
 
 6) After testing the application locally, select a docker compose file and modify the environment variables according to your application
